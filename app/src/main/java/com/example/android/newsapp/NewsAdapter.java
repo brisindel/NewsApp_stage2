@@ -18,9 +18,11 @@ public class NewsAdapter extends ArrayAdapter<News> {
      * which part is Date and which is Time.
      */
     private static final String DATE_SEPARATOR = "T";
+    private Context context;
 
     public NewsAdapter(Context context, List<News> news) {
         super(context, 0, news);
+        this.context = context;
     }
 
     @Override
@@ -41,43 +43,21 @@ public class NewsAdapter extends ArrayAdapter<News> {
         // Set title of news
         articleTitle.setText(currentNews.getmWebTitle());
 
-        //Find information about date/time
-        String articleDateTime = currentNews.getmWebPublicationDate();
-
-// If the articleDateTime string ("doplnit celý string data a času, jak jej vraccí The Guradian") contains
-        // a date (vypiš datum) and a time (vypiš čas)
-        // then store the date separately from the articleDateTime in 2 Strings,
-        // so they can be displayed in 2 TextViews.
-        String articleDate;
-        String articleTime;
-
-        // Check whether the articleDateTime string contains the " T " text
-        if (articleDateTime.contains(DATE_SEPARATOR)) {
-            // Split the string into different parts (as an array of Strings)
-            // based on the " T " text. We expect an array of 2 Strings, where
-            // the first String will be "datum doplň datum" and the second String will be "čas doplň čas".
-            String[] parts = articleDateTime.split(DATE_SEPARATOR);
-            // Date should be "5km N " + " T " --> "5km N of"
-            articleDate = "Date: " + parts[0];
-            // Time should be "Cairo, Egypt"
-            articleTime = "Time: " + parts[1].substring(0, 5);
-        } else {
-            // Otherwise, there is no " T " text in the articleDateTime string.
-            // Hence, set the default articleDateTime.
-            articleDate = articleDateTime;
-            // The date will be the full location string "Pacific-Antarctic Ridge".
-            articleTime = "";
-        }
-
         // Find the TextView with view ID
         TextView articleDateView = (TextView) listItemView.findViewById(R.id.tv_articleDate);
         // Set text articleDate
-        articleDateView.setText(articleDate);
+        articleDateView.setText(currentNews.getArticleDate());
 
         // Find the TextView with view ID
         TextView articleTimeView = (TextView) listItemView.findViewById(R.id.tv_articleTime);
         // Set text articleTime
-        articleTimeView.setText(articleTime);
+        articleTimeView.setText(currentNews.getArticleTime());
+
+        if (currentNews.isRecent()) {
+            articleTimeView.setText(currentNews.getArticleTime() + context.getString(R.string.last_news));
+            //   articleTimeView.setAllCaps(true);
+            //   articleTimeView.setTypeface(Typeface.DEFAULT_BOLD);
+        }
 
         // Find the TextView with view ID
         TextView sectionCategory = (TextView) listItemView.findViewById(R.id.tv_sectionCategory);

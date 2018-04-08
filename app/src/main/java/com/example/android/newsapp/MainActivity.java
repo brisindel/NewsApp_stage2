@@ -7,12 +7,11 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,9 +20,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<News>> {
@@ -63,16 +62,16 @@ public class MainActivity extends AppCompatActivity
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
 
-        //Set current Date
+        //Set current Date of device to layout tv_date
         // DateFormat tf = DateFormat.getDateInstance(DateFormat.LONG);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         df.setTimeZone(TimeZone.getDefault());
         final String currentDate = df.format(new Date());
 
         TextView dateCurrent = (TextView) findViewById(R.id.tv_date);
-        dateCurrent.setText("Date: " + currentDate);
+        dateCurrent.setText(getString(R.string.date) + currentDate);
 
-        //Call method set curret time to Toolbar
+        //Set current time to Toolbar
         setCurrentTime();
 
         // Find a reference to the {@link ListView} in the layout
@@ -173,14 +172,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     //Set current time to Toolbar
-    public void setCurrentTime () {
-        //Set current Time
+    public void setCurrentTime() {
+        //Take current time of device
         DateFormat tf = DateFormat.getTimeInstance(DateFormat.SHORT);
         tf.setTimeZone(TimeZone.getDefault());
         final String currentTime = tf.format(new Date());
 
-        //How many hours between current time and API time
-        //Take UTC Time
+        //Take time of article
         DateFormat utc = DateFormat.getTimeInstance(DateFormat.SHORT);
         utc.setTimeZone(TimeZone.getTimeZone("Europe/London"));
         String utcTime = utc.format(new Date());
@@ -202,11 +200,11 @@ public class MainActivity extends AppCompatActivity
 
         long difference = date1.getTime() - date2.getTime();
 
-        //Set time difference
+        //Set time difference in layout in tv_time
         DateFormat formatter = new SimpleDateFormat("H");
         String timeString = formatter.format(new Date(difference));
 
         TextView timeCurrent = (TextView) findViewById(R.id.tv_time);
-        timeCurrent.setText("Time: +" + timeString + "/"+ currentTime);
+        timeCurrent.setText(getString(R.string.time) + timeString + "/" + currentTime);
     }
 }

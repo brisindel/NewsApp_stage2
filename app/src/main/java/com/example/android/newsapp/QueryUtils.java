@@ -204,7 +204,7 @@ public final class QueryUtils {
             Log.e("QueryUtils", "Problem parsing the News JSON results", e);
         }
 
-        // Return the list of earthquakes
+        // Return the list of news
         return news;
     }
 

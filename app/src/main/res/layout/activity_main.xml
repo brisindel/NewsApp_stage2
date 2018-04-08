@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -10,16 +10,6 @@
         android:background="?attr/colorPrimary"
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignBaseline="@+id/tv_appName"
-            android:layout_alignBottom="@+id/tv_appName"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_vertical">
-
-        </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
     <TextView
@@ -40,8 +30,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/guardianlogo1"
-        />
+        android:src="@drawable/guardianlogo1" />
 
     <ListView
         android:id="@+id/list"
@@ -50,8 +39,8 @@
         android:layout_below="@id/toolbar"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:paddingLeft="11dp"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:paddingLeft="11dp" />
 
     <!-- Empty view is only visible when the list has no items. -->
     <TextView
@@ -71,42 +60,36 @@
 
     <TextView
         android:id="@+id/tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_appName"
+        style="@style/ToolbarText"
         android:layout_above="@+id/list"
-        android:paddingLeft="18dp"
+        android:layout_below="@+id/tv_appName"
         android:fontFamily="@font/mate"
-        android:textColor="@color/white"
-        tools:text="current date" />
+        android:paddingLeft="18dp"
+        tools:text="@string/placeholder_currenttime" />
 
     <TextView
         android:id="@+id/tv_lomitko"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_appName"
+        style="@style/ToolbarText"
         android:layout_alignBaseline="@+id/tv_date"
         android:layout_alignBottom="@+id/tv_date"
+        android:layout_below="@+id/tv_appName"
         android:layout_toEndOf="@+id/tv_date"
         android:layout_toRightOf="@+id/tv_date"
         android:maxLines="1"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="|"
-        android:textColor="@color/white"
+        android:text="@string/lomitko"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_appName"
+        style="@style/ToolbarText"
         android:layout_alignBaseline="@+id/tv_lomitko"
         android:layout_alignBottom="@+id/tv_lomitko"
+        android:layout_below="@+id/tv_appName"
         android:layout_toEndOf="@+id/tv_lomitko"
         android:layout_toRightOf="@+id/tv_lomitko"
         android:fontFamily="@font/mate"
-        android:textColor="@color/white"
-        tools:text="current time" />
+        tools:text="@string/placeholder_currenttime" />
 
 </RelativeLayout>
