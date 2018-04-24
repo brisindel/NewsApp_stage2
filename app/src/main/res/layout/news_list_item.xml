@@ -21,7 +21,7 @@
             android:layout_alignParentTop="true"
             android:fontFamily="@font/mate"
             android:maxLines="1"
-            android:textColor="@color/grey"
+            android:textColor="@color/pink"
             tools:text="Date" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_toRightOf="@+id/tv_lomitko"
             android:fontFamily="@font/mate"
             android:maxLines="1"
-            android:textColor="@color/grey"
+            android:textColor="@color/pink"
             tools:text="Time" />
 
 

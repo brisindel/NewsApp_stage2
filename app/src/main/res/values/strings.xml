@@ -4,7 +4,7 @@
 
     <!-- Trouble with connection strings -->
     <string name="no_internet_connection">No internet connection</string>
-    <string name="no_earthquakes">No news found.</string>
+    <string name="no_news">No news found.</string>
     <string name="placeholder_currenttime">current time</string>
 
     <string name="lomitko">|</string>
@@ -14,5 +14,25 @@
     <string name="date">Date:</string>
     <string name="time">Time: +</string>
 
+
+    <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
+    <string name="settings_menu_item">Settings</string>
+    <!-- Settings Activity Title [CHAR LIMIT=NONE] -->
+    <string name="settings_title">News Settings</string>
+
+    <string name="pick_category1">News category</string>
+    <string name="pick_category2">Choose from news category</string>
+
+       //news category for array list
+    <string name="all">All news</string>
+    <string name="world">World news</string>
+    <string name="us">US news</string>
+    <string name="uk">UK news</string>
+    <string name="business">Business</string>
+    <string name="science">Science</string>
+    <string name="society">Society</string>
+    <string name="sport">Sport</string>
+    <string name="art">Art and design</string>
+    <string name="technology">Technology</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.example.android.newsapp;
+package com.example.android.newsapp_stage2;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;

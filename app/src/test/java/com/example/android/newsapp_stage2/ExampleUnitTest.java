@@ -1,4 +1,4 @@
-package com.example.android.newsapp;
+package com.example.android.newsapp_stage2;
 
 import org.junit.Test;
 

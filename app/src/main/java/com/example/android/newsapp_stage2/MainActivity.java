@@ -1,15 +1,24 @@
-package com.example.android.newsapp;
+package com.example.android.newsapp_stage2;
 
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,7 +42,7 @@ public class MainActivity extends AppCompatActivity
      * URL for news data from the The Guardian dataset
      */
     private static final String GUARDIEN_REQUEST_URL =
-            "http://content.guardianapis.com/search?order-by=newest&api-key=test";
+            "http://content.guardianapis.com";
 
     /**
      * Constant value for the news loader ID. We can choose any integer.
@@ -48,19 +57,32 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * TextView that is displayed when the list is empty
+     * LoadManager for filter
+     * Loadingindicator for filter
+     * searchCategory for filter and change color
+     * Toolbar - own solution
      */
     private TextView mEmptyStateTextView;
+    private LoaderManager loaderManager;
+    private View loadingIndicator;
+    private String searchCategory;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadingIndicator = findViewById(R.id.loading_indicator);
 
         // Find the toolbar view inside the activity layout
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
+
+        //OverFlowIcon means 3 dots in default
+        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_filter_list));
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //Set current Date of device to layout tv_date
         // DateFormat tf = DateFormat.getDateInstance(DateFormat.LONG);
@@ -69,7 +91,7 @@ public class MainActivity extends AppCompatActivity
         final String currentDate = df.format(new Date());
 
         TextView dateCurrent = (TextView) findViewById(R.id.tv_date);
-        dateCurrent.setText(getString(R.string.date) + currentDate);
+        dateCurrent.setText(getString(R.string.date) + " " + currentDate);
 
         //Set current time to Toolbar
         setCurrentTime();
@@ -116,7 +138,7 @@ public class MainActivity extends AppCompatActivity
         // If there is a network connection, fetch data
         if (networkInfo != null && networkInfo.isConnected()) {
             // Get a reference to the LoaderManager, in order to interact with loaders.
-            LoaderManager loaderManager = getLoaderManager();
+            loaderManager = getLoaderManager();
 
             // Initialize the loader. Pass in the int ID constant defined above and pass in null for
             // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
@@ -133,20 +155,91 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * When user use filter show loading indicator, load feed with his preferences
+     * filterISChecked - change filter color when isChecked
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadingIndicator.setVisibility(View.VISIBLE);
+        loaderManager.restartLoader(1, null, this);
+        filterIsChecked();
+    }
+
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        searchCategory = sharedPreferences.getString(
+                getString(R.string.pick_category1),
+                getString(R.string.all));
+        searchCategory = parseCategory(searchCategory);
+
+        // parse breaks apart the URI string that's passed into its parameter
+        Uri baseUri = Uri.parse(GUARDIEN_REQUEST_URL);
+
+        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        //parts of URL which I used before filter: http://content.guardianapis.com/search?order-by=newest&api-key=test
+        uriBuilder.appendPath("search")
+                .appendQueryParameter("api-key", "test")
+                .appendQueryParameter("order-by", "newest");
+        if (!searchCategory.equals("")) {
+            uriBuilder.appendQueryParameter("section", searchCategory);
+        }
+
         // Create a new loader for the given URL
-        return new NewsLoader(this, GUARDIEN_REQUEST_URL);
+        return new NewsLoader(this, uriBuilder.toString());
+    }
+
+    //parse category in filter with Guardian category
+    private String parseCategory(String searchCategory) {
+        switch (searchCategory) {
+            case "All news":
+                searchCategory = "";
+                break;
+            case "World news":
+                searchCategory = "world";
+                break;
+            case "US news":
+                searchCategory = "us-news";
+                break;
+            case "UK news":
+                searchCategory = "uk-news";
+                break;
+            case "Business":
+                searchCategory = "business";
+                break;
+            case "Science":
+                searchCategory = "science";
+                break;
+            case "Society":
+                searchCategory = "society";
+                break;
+            case "Sport":
+                searchCategory = "sport";
+                break;
+            case "Art and design":
+                searchCategory = "artanddesign";
+                break;
+            case "Technology":
+                searchCategory = "technology";
+                break;
+            default:
+                searchCategory = "";
+        }
+        return searchCategory;
     }
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> news) {
         // Hide loading indicator because the data has been loaded
-        View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
         // Set empty state text to display "No news found."
-        mEmptyStateTextView.setText(R.string.no_earthquakes);
+        mEmptyStateTextView.setText(R.string.no_news);
 
         // Clear the adapter of previous news data
         mAdapter.clear();
@@ -206,5 +299,36 @@ public class MainActivity extends AppCompatActivity
 
         TextView timeCurrent = (TextView) findViewById(R.id.tv_time);
         timeCurrent.setText(getString(R.string.time) + timeString + "/" + currentTime);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void filterIsChecked() {
+        if (searchCategory == "") {
+            toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_filter_list));
+        } else {
+            Drawable drawable = toolbar.getOverflowIcon();
+            if (drawable != null) {
+                drawable = DrawableCompat.wrap(drawable);
+                DrawableCompat.setTint(drawable.mutate(), getResources().getColor(R.color.pink));
+                toolbar.setOverflowIcon(drawable);
+            }
+
+        }
     }
 }
