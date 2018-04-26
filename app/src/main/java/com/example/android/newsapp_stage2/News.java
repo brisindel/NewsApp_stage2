@@ -15,18 +15,20 @@ public class News {
     private String mWebUrl;
     private String articleDate;
     private String articleTime;
+    private String mAuthorName;
     private String arTime;
     private boolean isRecent;
 
     private static final String DATE_SEPARATOR = "T";
 
     //Constructor - order paramterers in constructor determined order of parsing information
-    public News(String title, String date, String pillar, String section, String url) {
+    public News(String title, String date, String pillar, String section, String url, String author) {
         mWebTitle = title;
         mWebPublicationDate = date;
         mPillarName = pillar;
         mSectionName = section;
         mWebUrl = url;
+        mAuthorName = author;
         parsePublicationDate(date);
         calculateTimeDifference();
     }
@@ -131,5 +133,9 @@ public class News {
 
     public String getmWebUrl() {
         return mWebUrl;
+    }
+
+    public String getmAuthorName() {
+        return mAuthorName;
     }
 }

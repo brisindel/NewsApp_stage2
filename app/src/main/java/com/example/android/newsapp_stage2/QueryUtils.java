@@ -23,8 +23,17 @@ import java.util.List;
  */
 public final class QueryUtils {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
+    private static JSONObject autorName;
+    private static String title;
+    private static String time;
+    private static String sectionName;
+    private static String sectionCategory;
+    private static String url;
+    private static String author;
 
     /**
      * Create a private constructor because no one should ever create a {@link QueryUtils} object.
@@ -46,7 +55,6 @@ public final class QueryUtils {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
 
         // Create URL object
         URL url = createUrl(requestUrl);
@@ -175,27 +183,36 @@ public final class QueryUtils {
                 JSONObject currentNews = resultsArray.getJSONObject(i);
 
                 // Extract the value for the key called "place"
-                String title = currentNews.getString("webTitle");
+                title = currentNews.getString("webTitle");
 
                 // Extract the value for the key called "time"
-                String time = currentNews.getString("webPublicationDate");
+                time = currentNews.getString("webPublicationDate");
 
                 // Extract the value for the key called "time"
-                String sectionName = currentNews.getString("sectionName");
+                sectionName = currentNews.getString("sectionName");
 
                 // Extract the value for the key called "time"
-                String sectionCategory = currentNews.getString("pillarName");
+                sectionCategory = currentNews.getString("pillarName");
 
                 // Extract the value for the key called "url"
-                String url = currentNews.getString("webUrl");
+                url = currentNews.getString("webUrl");
 
-                // Create a new {@link News} object with the magnitude, location, time,
-                // and url from the JSON results.
-                News news1 = new News(title, time, sectionName, sectionCategory, url);
+                JSONArray authorArray = response.getJSONArray("tags");
+                for (int y = 0; y < authorArray.length(); y++) {
 
-                // Add the new {@link News} to the list of news.
-                news.add(news1);
-            }
+                    JSONObject authorName = resultsArray.getJSONObject(y);
+
+                    if (autorName.has("webTitle")) {
+                        author = authorName.getString("webTitle");
+                    }
+                    // Create a new {@link News} object with the title, time, sectionName,
+                    // url and author from the JSON results.
+                    News news1 = new News(title, time, sectionName, sectionCategory, url, author);
+
+                    // Add the new {@link News} to the list of news.
+                    news.add(news1);
+
+                }}
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,

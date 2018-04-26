@@ -71,7 +71,7 @@
 
 
         <TextView
-            android:id="@+id/tv_sectionName"
+            android:id="@+id/tv_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -80,13 +80,40 @@
             android:fontFamily="@font/mate"
             android:maxLines="1"
             android:textColor="@color/colorAccent"
-            tools:text="Section Name" />
+            tools:text="Author" />
 
         <TextView
             android:id="@+id/tv_lomitko1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_articleTitle"
+            android:layout_toEndOf="@+id/tv_author"
+            android:layout_toRightOf="@+id/tv_author"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/lomitko"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_sectionName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_articleTitle"
+            android:layout_toEndOf="@+id/tv_lomitko1"
+            android:layout_toRightOf="@+id/tv_lomitko1"
+            android:fontFamily="@font/mate"
+            android:maxLines="1"
+            android:textColor="@color/colorAccent"
+            tools:text="Section Name" />
+
+        <TextView
+            android:id="@+id/tv_lomitko2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_sectionName"
+            android:layout_alignBottom="@+id/tv_sectionName"
             android:layout_toEndOf="@+id/tv_sectionName"
             android:layout_toRightOf="@+id/tv_sectionName"
             android:maxLines="1"
@@ -100,9 +127,9 @@
             android:id="@+id/tv_sectionCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_articleTitle"
-            android:layout_toEndOf="@+id/tv_lomitko1"
-            android:layout_toRightOf="@+id/tv_lomitko1"
+            android:layout_alignTop="@+id/tv_lomitko2"
+            android:layout_toEndOf="@+id/tv_lomitko2"
+            android:layout_toRightOf="@+id/tv_lomitko2"
             android:fontFamily="@font/mate"
             android:maxLines="1"
             android:textColor="@color/colorAccent"

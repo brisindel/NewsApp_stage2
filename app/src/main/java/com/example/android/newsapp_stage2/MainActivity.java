@@ -185,7 +185,8 @@ public class MainActivity extends AppCompatActivity
         //parts of URL which I used before filter: http://content.guardianapis.com/search?order-by=newest&api-key=test
         uriBuilder.appendPath("search")
                 .appendQueryParameter("api-key", "test")
-                .appendQueryParameter("order-by", "newest");
+                .appendQueryParameter("order-by", "newest")
+                .appendQueryParameter("show-tags", "contributor");
         if (!searchCategory.equals("")) {
             uriBuilder.appendQueryParameter("section", searchCategory);
         }
