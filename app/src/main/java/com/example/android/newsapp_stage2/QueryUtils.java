@@ -197,14 +197,15 @@ public final class QueryUtils {
                 // Extract the value for the key called "url"
                 url = currentNews.getString("webUrl");
 
-                JSONArray authorArray = response.getJSONArray("tags");
+                //New array in currentNews
+                JSONArray authorArray = currentNews.getJSONArray("tags");
                 for (int y = 0; y < authorArray.length(); y++) {
 
-                    JSONObject authorName = resultsArray.getJSONObject(y);
+                    JSONObject authorName = authorArray.getJSONObject(y);
 
-                    if (autorName.has("webTitle")) {
-                        author = authorName.getString("webTitle");
-                    }
+                    // Extract the value for the key called "author"
+                    author = authorName.getString("webTitle");
+
                     // Create a new {@link News} object with the title, time, sectionName,
                     // url and author from the JSON results.
                     News news1 = new News(title, time, sectionName, sectionCategory, url, author);
@@ -212,7 +213,8 @@ public final class QueryUtils {
                     // Add the new {@link News} to the list of news.
                     news.add(news1);
 
-                }}
+                }
+            }
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,

@@ -28,6 +28,7 @@
             android:id="@+id/tv_lomitko"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_articleTitle"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/tv_articleDate"
             android:layout_toRightOf="@+id/tv_articleDate"
@@ -42,8 +43,7 @@
             android:id="@+id/tv_articleTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tv_lomitko"
-            android:layout_alignBottom="@+id/tv_lomitko"
+            android:layout_above="@+id/tv_articleTitle"
             android:layout_toEndOf="@+id/tv_lomitko"
             android:layout_toRightOf="@+id/tv_lomitko"
             android:fontFamily="@font/mate"
@@ -86,6 +86,7 @@
             android:id="@+id/tv_lomitko1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_author"
             android:layout_below="@+id/tv_articleTitle"
             android:layout_toEndOf="@+id/tv_author"
             android:layout_toRightOf="@+id/tv_author"
@@ -112,8 +113,8 @@
             android:id="@+id/tv_lomitko2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tv_sectionName"
             android:layout_alignBottom="@+id/tv_sectionName"
+            android:layout_below="@+id/tv_articleTitle"
             android:layout_toEndOf="@+id/tv_sectionName"
             android:layout_toRightOf="@+id/tv_sectionName"
             android:maxLines="1"
@@ -140,10 +141,10 @@
             android:id="@+id/btn_articleDetail"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_chevron_right"
-            android:layout_alignParentEnd="true" />
+            android:src="@drawable/ic_chevron_right" />
     </RelativeLayout>
 
 </LinearLayout>
